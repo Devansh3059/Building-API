@@ -13,7 +13,7 @@ router.get("/",async (req,res)=>{
     }
 });
 
-//Submits The Post
+//Creates The Post
 router.post('/',async(req,res)=>{
     console.log(req.body);
     const post = new Post({
@@ -28,6 +28,41 @@ router.post('/',async(req,res)=>{
     }
 })
 
+router.patch('/:postId', async (req,res)=>{
+    try{
+        var postUpdate = await Post.updateOne({
+            _id:req.params.postId},
+            {$set:{
+                title:req.body.title,
+                description:req.body.description
+            }
+        });
+        res.json(postUpdate);
+    }catch(err){
+        res.json(err);
+    }
+})
+
+//Specific Post
+router.get('/:postId',async (req,res)=>{
+    try {
+        const post = await Post.findById(req.params.postId);
+        res.json(post)
+    }catch{
+        res.json(post);
+    }
+})
+
+//Delete specific post
+
+router.delete('/:postId', async (req,res)=>{
+    try{
+        var removePost = await Post.deleteOne({_id: req.params.postId})
+        res.json(removePost)
+    }catch(err){
+        res.json({message:err})
+    }
+})
 
 // router.post('/',(req,res)=>{
 //     console.log(req.body);
