@@ -2,6 +2,17 @@ var express = require("express");
 var router = express.Router();
 var Post = require('../model/Post');
 
+
+//Get All Posts
+router.get("/",async (req,res)=>{
+    try{
+        const posts = await Post.find()  //2
+        res.json(posts)
+    }catch(err){
+        res.json({message:err})
+    }
+});
+
 //Submits The Post
 router.post('/',async(req,res)=>{
     console.log(req.body);
